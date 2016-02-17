@@ -21,7 +21,7 @@ this.checkForProfile = function() {
 }
 
 this.deleteProfile = function(){
-  localStorage.removeItem('profile')
+  localStorage.removeItem('profile');
 }
 
 });
