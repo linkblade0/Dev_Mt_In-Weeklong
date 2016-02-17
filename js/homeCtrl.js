@@ -19,16 +19,35 @@ $scope.editing = false;
 
 $scope.saveProfile = function(profile) {
   profileService.saveProfile(profile);
-  $scope.editing = false;
 }
 
 $scope.deleteProfile = function(){
-  profileService.deleteProfile();
-  $scope.myProfile = profileService.checkForProfile();
+  profileService.deleteProfile()
+  .then(function(deletedProfile) {
+    localStorage.removeItem('profileID');
+    $scope.myProfile = {};
+  })
+  .catch(function(err) {
+    console.error(err);
+  });
 }
 
 //my friends list
-  $scope.myProfile = profileService.checkForProfile();
+  $scope.checkForProfile = function() {
+    var profileId = JSON.parse(localStorage.getItem('profileId'));
+
+    if (profileId) {
+      profileService.checkForProfile(profileId.profileId)
+      .then(function(profile) {
+        $scope.myProfile = profile.data;
+      })
+      .catch(function(err) {
+        console.error(err)
+      });
+     }
+  }
+
+  $scope.checkForProfile();
 
 //array for ng-options
   $scope.sortOptions = [{
