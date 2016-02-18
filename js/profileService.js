@@ -1,11 +1,11 @@
-angular.module('devMtIn')
-.service('profileService', function() {
+var app = angular.module('devMtIn');
+app.service('profileService', function($http) {
 
   var baseUrl = 'http://connections.devmounta.in/'
 
 this.saveProfile = function(profile) {
   return $http({
-    method: 'Post', //Request method
+    method: 'POST', //Request method
     url: baseUrl + 'api/profiles/', //URL we are making the request to.
     data: profile //The data we are requesting be posted
   })
@@ -18,19 +18,21 @@ this.saveProfile = function(profile) {
   });
 }
 
-this.checkForProfile = function(profileID) {
+this.checkForProfile = function(profileId) {
   return $http({
     method: 'GET',
-    url: baseUrl + 'api/profile/' + profileId
-  });
+    url: 'http://connections.devmounta.in/api/profiles/' + profileId
+  }).then(function(response){
+    return response;
+  })
 }
 
 this.deleteProfile = function(){
-  var profileID = JSON.parse(localStorage.getItem('profileId')).profileId;
+  var profileId = JSON.parse(localStorage.getItem('profileId')).profileId;
 
   return $http({
     method: 'DELETE',
-    url: baseUrl + 'api/profiles/' + profileID
+    url: baseUrl + 'api/profiles/' + profileId
   });
 }
 
